@@ -45,6 +45,28 @@ resource "databricks_cluster" "api_metastore_work_leave_me_alone_0706_014818_gr8
   }
   autotermination_minutes = 120
 }
+resource "databricks_cluster" "api_table_acl_work_leave_me_alone_0706_183141_p9kwvotg" {
+  spark_version = "10.4.x-scala2.12"
+  spark_env_vars = {
+    PYSPARK_PYTHON = "/databricks/python3/bin/python3"
+  }
+  spark_conf = {
+    "spark.databricks.acl.dfAclsEnabled"     = "true"
+    "spark.databricks.cluster.profile"       = "serverless"
+    "spark.databricks.delta.preview.enabled" = "true"
+    "spark.databricks.repl.allowedLanguages" = "python,sql"
+  }
+  num_workers         = 1
+  node_type_id        = "Standard_DS3_v2"
+  enable_elastic_disk = true
+  cluster_name        = "API_Table_ACL_Work_Leave_Me_Alone"
+  azure_attributes {
+    spot_bid_max_price = -1
+    first_on_demand    = 1
+    availability       = "ON_DEMAND_AZURE"
+  }
+  autotermination_minutes = 120
+}
 resource "databricks_cluster" "demo_cluster_0323_170018_burs288" {
   spark_version = "11.3.x-scala2.12"
   spark_conf = {
@@ -665,11 +687,11 @@ resource "databricks_library" "r774eb2412d6" {
   cluster_id = databricks_cluster.hbase_demo_0510_153436_liven246.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r87fd1bbd35a" {
