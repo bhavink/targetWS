@@ -2,11 +2,34 @@ resource "databricks_job" "bk_test_job_720457101795677" {
   webhook_notifications {
   }
   task {
+    task_key = "another_nb"
+    notebook_task {
+      source        = "WORKSPACE"
+      notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
+    }
+    job_cluster_key = "bk-test-job_cluster"
+    email_notifications {
+    }
+    depends_on {
+      task_key = "bk-test-job"
+    }
+  }
+  task {
     task_key = "bk-test-job"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
     }
+    job_cluster_key = "bk-test-job_cluster"
+    email_notifications {
+    }
+  }
+  schedule {
+    timezone_id            = "America/Indianapolis"
+    quartz_cron_expression = "50 25 21 * * ?"
+  }
+  name = "bk-test-job"
+  job_cluster {
     new_cluster {
       spark_version = "12.2.x-scala2.12"
       spark_env_vars = {
@@ -30,6 +53,36 @@ resource "databricks_job" "bk_test_job_720457101795677" {
         availability       = "ON_DEMAND_AZURE"
       }
     }
+    job_cluster_key = "bk-test-job_cluster"
+  }
+  email_notifications {
+    on_failure                = [databricks_user.bhavin_kukadia.user_name]
+    no_alert_for_skipped_runs = true
+  }
+}
+resource "databricks_job" "clone_of_bk_test_job_672586672741465" {
+  webhook_notifications {
+  }
+  task {
+    task_key = "another_nb"
+    notebook_task {
+      source        = "WORKSPACE"
+      notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
+    }
+    job_cluster_key = "bk-test-job_cluster"
+    email_notifications {
+    }
+    depends_on {
+      task_key = "bk-test-job"
+    }
+  }
+  task {
+    task_key = "bk-test-job"
+    notebook_task {
+      source        = "WORKSPACE"
+      notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
+    }
+    job_cluster_key = "bk-test-job_cluster"
     email_notifications {
     }
   }
@@ -37,7 +90,33 @@ resource "databricks_job" "bk_test_job_720457101795677" {
     timezone_id            = "America/Indianapolis"
     quartz_cron_expression = "50 25 21 * * ?"
   }
-  name = "bk-test-job"
+  name = "Clone of bk-test-job"
+  job_cluster {
+    new_cluster {
+      spark_version = "12.2.x-scala2.12"
+      spark_env_vars = {
+        PYSPARK_PYTHON = "/databricks/python3/bin/python3"
+      }
+      spark_conf = {
+        "spark.databricks.cluster.profile"       = "singleNode"
+        "spark.databricks.delta.preview.enabled" = "true"
+        "spark.master"                           = "local[*, 4]"
+      }
+      runtime_engine      = "STANDARD"
+      node_type_id        = "Standard_DS3_v2"
+      enable_elastic_disk = true
+      data_security_mode  = "SINGLE_USER"
+      custom_tags = {
+        ResourceClass = "SingleNode"
+      }
+      azure_attributes {
+        spot_bid_max_price = -1
+        first_on_demand    = 1
+        availability       = "ON_DEMAND_AZURE"
+      }
+    }
+    job_cluster_key = "bk-test-job_cluster"
+  }
   email_notifications {
     on_failure                = [databricks_user.bhavin_kukadia.user_name]
     no_alert_for_skipped_runs = true
