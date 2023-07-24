@@ -578,6 +578,36 @@ resource "databricks_cluster" "overwatch_demo_1117_034424_i4qrczgd" {
     availability       = "ON_DEMAND_AZURE"
   }
 }
+data "databricks_cluster_policy" "personal_compute" {
+  policy_family_id = "personal-vm"
+  name             = "Personal Compute"
+  description      = "Use with small-to-medium data or libraries like pandas and scikit-learn. Spark runs in local mode."
+}
+resource "databricks_cluster" "purview_uc_demo_0717_153837_b5zed416" {
+  spark_version = "12.2.x-scala2.12"
+  spark_env_vars = {
+    PYSPARK_PYTHON = "/databricks/python3/bin/python3"
+  }
+  spark_conf = {
+    "spark.databricks.delta.preview.enabled" = "true"
+  }
+  single_user_name    = databricks_user.nikhil_gupta.user_name
+  runtime_engine      = "STANDARD"
+  node_type_id        = "Standard_DS3_v2"
+  enable_elastic_disk = true
+  data_security_mode  = "SINGLE_USER"
+  cluster_name        = "Purview-UC-Demo"
+  azure_attributes {
+    spot_bid_max_price = -1
+    first_on_demand    = 1
+    availability       = "ON_DEMAND_AZURE"
+  }
+  autotermination_minutes = 120
+  autoscale {
+    min_workers = 2
+    max_workers = 8
+  }
+}
 resource "databricks_library" "r02a382b89b3" {
   pypi {
     package = "spacy"
@@ -687,11 +717,11 @@ resource "databricks_library" "r774eb2412d6" {
   cluster_id = databricks_cluster.hbase_demo_0510_153436_liven246.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r87fd1bbd35a" {
@@ -771,6 +801,30 @@ resource "databricks_library" "rf1b02faa21b" {
 resource "databricks_library" "rf32fa215d56" {
   jar        = "dbfs:/FileStore/jars/9675e36a_179a_41cd_8d45_1b7032f49d18-hbase_common-8e287.jar"
   cluster_id = databricks_cluster.hbase_de_new_0518_011236_easy939.id
+}
+resource "databricks_cluster" "roger_dings_personal_compute_cluster_0721_151230_9u1n2glm" {
+  spark_version = "13.2.x-cpu-ml-scala2.12"
+  spark_conf = {
+    "spark.databricks.cluster.profile"       = "singleNode"
+    "spark.databricks.delta.preview.enabled" = "true"
+    "spark.master"                           = "local[*, 4]"
+  }
+  single_user_name    = databricks_user.roger_ding.user_name
+  runtime_engine      = "STANDARD"
+  policy_id           = data.databricks_cluster_policy.personal_compute.id
+  node_type_id        = "Standard_DS3_v2"
+  enable_elastic_disk = true
+  data_security_mode  = "SINGLE_USER"
+  custom_tags = {
+    ResourceClass = "SingleNode"
+  }
+  cluster_name = "Roger Ding's Personal Compute Cluster"
+  azure_attributes {
+    spot_bid_max_price = -1
+    first_on_demand    = 1
+    availability       = "ON_DEMAND_AZURE"
+  }
+  autotermination_minutes = 4320
 }
 resource "databricks_cluster" "test_blob_mount_0421_191122_hubby225" {
   spark_version = "8.1.x-scala2.12"
