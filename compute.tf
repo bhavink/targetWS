@@ -68,7 +68,7 @@ resource "databricks_cluster" "api_table_acl_work_leave_me_alone_0706_183141_p9k
   autotermination_minutes = 120
 }
 resource "databricks_cluster" "demo_cluster_0323_170018_burs288" {
-  spark_version = "11.3.x-scala2.12"
+  spark_version = "7.3.x-scala2.12"
   spark_conf = {
     "fs.permissions.umask-mode"              = "002"
     "spark.databricks.delta.preview.enabled" = "true"
@@ -83,7 +83,7 @@ resource "databricks_cluster" "demo_cluster_0323_170018_burs288" {
   cluster_name = "demo_cluster"
   autoscale {
     min_workers = 1
-    max_workers = 2
+    max_workers = 1
   }
 }
 resource "databricks_cluster" "ganeshrj_msal_sqldb_test_0120_224353_toffy919" {
@@ -283,46 +283,6 @@ resource "databricks_cluster" "iot_demo_cluster_0705_214821_afar123" {
     max_workers = 8
   }
 }
-resource "databricks_cluster" "kerb_hdp31_731_cluster_0628_174438_8ye5sd19" {
-  spark_version = "7.3.x-scala2.12"
-  spark_env_vars = {
-    PYSPARK_PYTHON = "/databricks/python3/bin/python3"
-  }
-  spark_conf = {
-    "spark.databricks.cluster.profile"                            = "singleNode"
-    "spark.databricks.delta.preview.enabled"                      = "true"
-    "spark.driver.extraJavaOptions"                               = "-Dsun.security.krb5.debug=true -Djava.security.krb5.conf=/dbfs/databricks/ganeshrj/kerb_init_v1/krb5.conf  -Dkeytab.file=/dbfs/databricks/ganeshrj/kerb_init_v1/hdfs_headless.keytab -Djavax.security.auth.useSubjectCredsOnly=false"
-    "spark.executor.extraJavaOptions"                             = "-Dsun.security.krb5.debug=true -Djava.security.krb5.conf=/dbfs/databricks/ganeshrj/kerb_init_v1/krb5.conf  -Dkeytab.file=/dbfs/databricks/ganeshrj/kerb_init_v1/hdfs_headless.keytab -Djavax.security.auth.useSubjectCredsOnly=false"
-    "spark.hadoop.javax.jdo.option.ConnectionDriverName"          = "org.mariadb.jdbc.Driver"
-    "spark.hadoop.javax.jdo.option.ConnectionPassword"            = "hive"
-    "spark.hadoop.javax.jdo.option.ConnectionURL"                 = "jdbc:mysql://kerbhdp31.ganeshrj.com/hive1"
-    "spark.hadoop.javax.jdo.option.ConnectionUserName"            = "hive"
-    "spark.master"                                                = "local[*, 4]"
-    "spark.sql.hive.metastore.jars"                               = "maven"
-    "spark.sql.hive.metastore.schema.verification"                = "false"
-    "spark.sql.hive.metastore.schema.verification.record.version" = "false"
-    "spark.sql.hive.metastore.version"                            = "3.1.1"
-  }
-  runtime_engine = "STANDARD"
-  node_type_id   = "Standard_DS4_v2"
-  init_scripts {
-    dbfs {
-      destination = "dbfs:/databricks/ganeshrj/kerb_init_v1/kerb-hdfs-init.bash"
-    }
-  }
-  enable_elastic_disk = true
-  data_security_mode  = "NONE"
-  custom_tags = {
-    ResourceClass = "SingleNode"
-  }
-  cluster_name = "kerb_hdp31_731_cluster"
-  azure_attributes {
-    spot_bid_max_price = -1
-    first_on_demand    = 1
-    availability       = "ON_DEMAND_AZURE"
-  }
-  autotermination_minutes = 120
-}
 resource "databricks_cluster" "kerb_hdp31_73_cluster_0831_194301_web21" {
   spark_version = "7.3.x-scala2.12"
   spark_env_vars = {
@@ -436,6 +396,52 @@ resource "databricks_cluster" "kerb_hdp31_cluster_sn_0901_225646_loaf897" {
     ResourceClass = "SingleNode"
   }
   cluster_name = "kerb_hdp31_cluster_SN"
+  cluster_log_conf {
+    dbfs {
+      destination = "dbfs:/cluster-logs/kerb/"
+    }
+  }
+  azure_attributes {
+    spot_bid_max_price = -1
+    first_on_demand    = 1
+    availability       = "ON_DEMAND_AZURE"
+  }
+  autotermination_minutes = 120
+}
+resource "databricks_cluster" "kerb_hdp31_cluster_sn_13_0724_165600_n70rxf6g" {
+  spark_version = "12.2.x-scala2.12"
+  spark_env_vars = {
+    DATABRICKS_HADOOP_UGI_PROXY_USER_ENABLED = "true"
+  }
+  spark_conf = {
+    "spark.databricks.cluster.profile"                            = "singleNode"
+    "spark.databricks.delta.preview.enabled"                      = "true"
+    "spark.driver.extraJavaOptions"                               = "-Dsun.security.krb5.debug=true -Djava.security.krb5.conf=/dbfs/databricks/ganeshrj/kerb_init_v1/krb5.conf  -Dkeytab.file=/dbfs/databricks/ganeshrj/kerb_init_v1/hdfs_headless.keytab -Djavax.security.auth.useSubjectCredsOnly=false -Djava.security.debug=gssloginconfig,configfile,configparser,logincontext"
+    "spark.executor.extraJavaOptions"                             = "-Dsun.security.krb5.debug=true -Djava.security.krb5.conf=/dbfs/databricks/ganeshrj/kerb_init_v1/krb5.conf  -Dkeytab.file=/dbfs/databricks/ganeshrj/kerb_init_v1/hdfs_headless.keytab -Djavax.security.auth.useSubjectCredsOnly=false -Djava.security.debug=gssloginconfig,configfile,configparser,logincontext"
+    "spark.hadoop.dfs.namenode.kerberos.principal"                = "hdfs-kerbhdp31@GANESHRJ.COM"
+    "spark.hadoop.javax.jdo.option.ConnectionDriverName"          = "org.mariadb.jdbc.Driver"
+    "spark.hadoop.javax.jdo.option.ConnectionPassword"            = "hive"
+    "spark.hadoop.javax.jdo.option.ConnectionURL"                 = "jdbc:mysql://kerbhdp31.ganeshrj.com/hive1"
+    "spark.hadoop.javax.jdo.option.ConnectionUserName"            = "hive"
+    "spark.master"                                                = "local[*, 4]"
+    "spark.sql.hive.metastore.jars"                               = "maven"
+    "spark.sql.hive.metastore.schema.verification"                = "false"
+    "spark.sql.hive.metastore.schema.verification.record.version" = "false"
+    "spark.sql.hive.metastore.version"                            = "3.1.1"
+  }
+  runtime_engine = "STANDARD"
+  node_type_id   = "Standard_DS3_v2"
+  init_scripts {
+    dbfs {
+      destination = "dbfs:/databricks/ganeshrj/kerb_init_v1/kerb-hdfs-init.bash"
+    }
+  }
+  enable_elastic_disk = true
+  data_security_mode  = "NONE"
+  custom_tags = {
+    ResourceClass = "SingleNode"
+  }
+  cluster_name = "kerb_hdp31_cluster_SN (13)"
   cluster_log_conf {
     dbfs {
       destination = "dbfs:/cluster-logs/kerb/"
