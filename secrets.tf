@@ -42,18 +42,18 @@ resource "databricks_secret_acl" "dbadlsaccess_ganesh_rajagopal" {
   principal  = databricks_user.ganesh_rajagopal.user_name
   permission = "MANAGE"
 }
-resource "databricks_secret_scope" "ganesh_rajagopal" {
-  name = "ganesh.rajagopal@databricks.com"
+resource "databricks_secret_acl" "ganesh_rajagopal" {
+  scope      = databricks_secret_scope.ganesh_rajagopal.id
+  principal  = databricks_user.ganesh_rajagopal.user_name
+  permission = "MANAGE"
 }
 resource "databricks_secret" "ganesh_rajagopal" {
   string_value = var.string_value_ganesh_rajagopal_databricks_com_password_f83e864a27
   scope        = databricks_secret_scope.ganesh_rajagopal.id
   key          = "password"
 }
-resource "databricks_secret_acl" "ganesh_rajagopal" {
-  scope      = databricks_secret_scope.ganesh_rajagopal.id
-  principal  = databricks_user.ganesh_rajagopal.user_name
-  permission = "MANAGE"
+resource "databricks_secret_scope" "ganesh_rajagopal" {
+  name = "ganesh.rajagopal@databricks.com"
 }
 resource "databricks_secret_scope" "grjscopeviaapi_523ea9776c" {
   name = "grjScopeviaAPI"

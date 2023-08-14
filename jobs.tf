@@ -3,6 +3,7 @@ resource "databricks_job" "bk_test_job_720457101795677" {
   }
   task {
     task_key = "another_nb"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
@@ -16,6 +17,7 @@ resource "databricks_job" "bk_test_job_720457101795677" {
   }
   task {
     task_key = "bk-test-job"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
@@ -65,6 +67,7 @@ resource "databricks_job" "clone_of_bk_test_job_672586672741465" {
   }
   task {
     task_key = "another_nb"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
@@ -78,6 +81,7 @@ resource "databricks_job" "clone_of_bk_test_job_672586672741465" {
   }
   task {
     task_key = "bk-test-job"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/bhavin.kukadia@databricks.com/Test"
@@ -127,6 +131,7 @@ resource "databricks_job" "get_adls_token_448076461218208" {
   }
   task {
     task_key = "Get_ADLS_Token"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/ganesh.rajagopal@databricks.com/Secrets/Get ADLS Token"
@@ -150,6 +155,7 @@ resource "databricks_job" "hiveddl_211" {
   }
   task {
     task_key = "HiveDDL"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Shared/Hadoop Workshop/3. Code Migration - PySpark"
@@ -172,6 +178,7 @@ resource "databricks_job" "migr_testpy_199" {
     spark_submit_task {
       parameters = ["dbfs:/FileStore/adb_migration/adb_testspark.py"]
     }
+    run_if = "ALL_SUCCESS"
     new_cluster {
       spark_version = "8.2.x-scala2.12"
       spark_env_vars = {
@@ -199,6 +206,7 @@ resource "databricks_job" "notebook1_1453" {
   }
   task {
     task_key = "Notebook1"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/ganesh.rajagopal@databricks.com/Arlo_Analysis"
@@ -225,6 +233,7 @@ resource "databricks_job" "notebook1_1453" {
   }
   task {
     task_key = "notebook2"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/batch_operations_temp"
@@ -254,6 +263,7 @@ resource "databricks_job" "notebook1_1453" {
   }
   task {
     task_key = "notebook3"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/CosmosDB Write"
@@ -293,6 +303,7 @@ resource "databricks_job" "notebook1_3367" {
   }
   task {
     task_key = "notebook1"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/0-Admin Mounts"
@@ -319,6 +330,7 @@ resource "databricks_job" "notebook1_3367" {
   }
   task {
     task_key = "notebook2"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/batch_operations_temp"
@@ -348,6 +360,7 @@ resource "databricks_job" "notebook1_3367" {
   }
   task {
     task_key = "notebook3"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Enable Files in Repos"
@@ -387,6 +400,7 @@ resource "databricks_job" "rg_orch_296" {
   }
   task {
     task_key = "rg_orch"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Shared/Hadoop Workshop/8. Job Notebook Orchestrator"
@@ -421,6 +435,7 @@ resource "databricks_job" "rgdemo_orch_262" {
   }
   task {
     task_key = "rgdemo_orch"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Shared/Hadoop Workshop/8. Job Notebook Orchestrator"
@@ -459,6 +474,7 @@ resource "databricks_job" "teragen_365" {
       parameters      = ["--class", "org.apache.spark.examples.terasort.TeraGen", "dbfs:/FileStore/Teragen", "1g"]
       main_class_name = "org.apache.spark.examples.terasort.TeraGen"
     }
+    run_if = "ALL_SUCCESS"
     library {
       jar = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
     }
@@ -473,6 +489,7 @@ resource "databricks_job" "test123_3381" {
   }
   task {
     task_key = "dlt1"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/delta-live-tables-notebooks/sql/Retail Sales"
@@ -502,6 +519,7 @@ resource "databricks_job" "test123_3381" {
   }
   task {
     task_key = "test123"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/0-Admin Mounts"
@@ -535,6 +553,7 @@ resource "databricks_job" "test123_3492" {
   }
   task {
     task_key = "test123"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/0-Admin Mounts"
@@ -561,6 +580,7 @@ resource "databricks_job" "test123_3492" {
   }
   task {
     task_key = "test234"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/CosmosDB Write"
@@ -590,6 +610,7 @@ resource "databricks_job" "test123_3492" {
   }
   task {
     task_key = "test321"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/CosmosDB Write"
@@ -629,6 +650,7 @@ resource "databricks_job" "test123_3580" {
   }
   task {
     task_key = "job2"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/CosmosDB Write"
@@ -658,6 +680,7 @@ resource "databricks_job" "test123_3580" {
   }
   task {
     task_key = "job3"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Enable Files in Repos"
@@ -687,6 +710,7 @@ resource "databricks_job" "test123_3580" {
   }
   task {
     task_key = "test123"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/0-Admin Mounts"
@@ -720,6 +744,7 @@ resource "databricks_job" "test1_1519" {
   }
   task {
     task_key = "notebook2"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/0-Admin Mounts"
@@ -749,6 +774,7 @@ resource "databricks_job" "test1_1519" {
   }
   task {
     task_key = "test1"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/batch_operations_temp"
@@ -782,6 +808,7 @@ resource "databricks_job" "test_3664" {
   }
   task {
     task_key = "test"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/AON/AON Impala"
@@ -813,6 +840,7 @@ resource "databricks_job" "test_437" {
   }
   task {
     task_key = "test"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/0-Admin Mounts"
@@ -844,6 +872,7 @@ resource "databricks_job" "test_job_549" {
   }
   task {
     task_key = "Test_JOB"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/testspark"
@@ -878,6 +907,7 @@ resource "databricks_job" "testjob_5" {
   }
   task {
     task_key = "testJob"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/ganesh.rajagopal@databricks.com/adf_test_notebook"
@@ -907,6 +937,7 @@ resource "databricks_job" "untitled_19" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -931,6 +962,7 @@ resource "databricks_job" "untitled_20" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -955,6 +987,7 @@ resource "databricks_job" "untitled_21" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -979,6 +1012,7 @@ resource "databricks_job" "untitled_22" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1003,6 +1037,7 @@ resource "databricks_job" "untitled_23" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1027,6 +1062,7 @@ resource "databricks_job" "untitled_24" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1051,6 +1087,7 @@ resource "databricks_job" "untitled_25" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1075,6 +1112,7 @@ resource "databricks_job" "untitled_26" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1099,6 +1137,7 @@ resource "databricks_job" "untitled_27" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1123,6 +1162,7 @@ resource "databricks_job" "untitled_28" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1147,6 +1187,7 @@ resource "databricks_job" "untitled_29" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1171,6 +1212,7 @@ resource "databricks_job" "untitled_30" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1195,6 +1237,7 @@ resource "databricks_job" "untitled_31" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1219,6 +1262,7 @@ resource "databricks_job" "untitled_32" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1243,6 +1287,7 @@ resource "databricks_job" "untitled_33" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1267,6 +1312,7 @@ resource "databricks_job" "untitled_34" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1291,6 +1337,7 @@ resource "databricks_job" "untitled_35" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1315,6 +1362,7 @@ resource "databricks_job" "untitled_36" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1339,6 +1387,7 @@ resource "databricks_job" "untitled_37" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Users/ganesh.rajagopal@databricks.com/test"
@@ -1353,6 +1402,7 @@ resource "databricks_job" "untitled_4" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.3.x-scala2.12"
       spark_env_vars = {
@@ -1377,6 +1427,7 @@ resource "databricks_job" "untitled_6" {
   }
   task {
     task_key = "Untitled"
+    run_if   = "ALL_SUCCESS"
     new_cluster {
       spark_version = "7.4.x-scala2.12"
       spark_env_vars = {
@@ -1401,6 +1452,7 @@ resource "databricks_job" "vw_etl2_373344185305405" {
   }
   task {
     task_key = "vw-etl2"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Quickstart Notebook"
@@ -1432,6 +1484,7 @@ resource "databricks_job" "vw_etl_test_466617609222548" {
   }
   task {
     task_key = "vw-etl-test"
+    run_if   = "ALL_SUCCESS"
     notebook_task {
       source        = "WORKSPACE"
       notebook_path = "/Quickstart Notebook"

@@ -26,6 +26,41 @@ resource "databricks_cluster" "a_simple_cluster_0208_192534_motif544" {
     max_workers = 2
   }
 }
+resource "databricks_cluster" "default_encr_0810_185441_qslvcs71" {
+  spark_version = "12.2.x-scala2.12"
+  spark_env_vars = {
+    PYSPARK_PYTHON = "/databricks/python3/bin/python3"
+  }
+  spark_conf = {
+    "spark.databricks.delta.preview.enabled" = "true"
+  }
+  single_user_name = databricks_user.ganesh_rajagopal.user_name
+  runtime_engine   = "STANDARD"
+  node_type_id     = "Standard_DS3_v2"
+  init_scripts {
+    dbfs {
+      destination = "dbfs:/testencr/set-encryption.sh"
+    }
+  }
+  enable_elastic_disk = true
+  data_security_mode  = "SINGLE_USER"
+  cluster_name        = "default encr "
+  cluster_log_conf {
+    dbfs {
+      destination = "dbfs:/cluster-logs/defencr/"
+    }
+  }
+  azure_attributes {
+    spot_bid_max_price = -1
+    first_on_demand    = 1
+    availability       = "ON_DEMAND_AZURE"
+  }
+  autotermination_minutes = 120
+  autoscale {
+    min_workers = 1
+    max_workers = 2
+  }
+}
 resource "databricks_cluster" "demo_cluster_0323_170018_burs288" {
   spark_version = "7.3.x-scala2.12"
   spark_conf = {
@@ -215,6 +250,41 @@ resource "databricks_cluster" "hbase_demo_0510_153436_liven246" {
   autotermination_minutes = 30
   autoscale {
     max_workers = 2
+  }
+}
+resource "databricks_cluster" "internode_encr_test_0810_162203_b39npavh" {
+  spark_version = "12.2.x-scala2.12"
+  spark_env_vars = {
+    PYSPARK_PYTHON = "/databricks/python3/bin/python3"
+  }
+  spark_conf = {
+    "spark.databricks.delta.preview.enabled" = "true"
+  }
+  single_user_name = databricks_user.ganesh_rajagopal.user_name
+  runtime_engine   = "STANDARD"
+  node_type_id     = "Standard_DS3_v2"
+  init_scripts {
+    dbfs {
+      destination = "dbfs:/FileStore/encryption/encryption.sh"
+    }
+  }
+  enable_elastic_disk = true
+  data_security_mode  = "SINGLE_USER"
+  cluster_name        = "internode_encr_test"
+  cluster_log_conf {
+    dbfs {
+      destination = "dbfs:/cluster-logs/encryption"
+    }
+  }
+  azure_attributes {
+    spot_bid_max_price = -1
+    first_on_demand    = 1
+    availability       = "ON_DEMAND_AZURE"
+  }
+  autotermination_minutes = 30
+  autoscale {
+    min_workers = 1
+    max_workers = 1
   }
 }
 resource "databricks_cluster" "iot_demo_cluster_0705_214821_afar123" {
@@ -656,11 +726,11 @@ resource "databricks_library" "r774eb2412d6" {
   cluster_id = databricks_cluster.hbase_demo_0510_153436_liven246.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r87fd1bbd35a" {
