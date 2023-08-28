@@ -37,6 +37,7 @@ resource "databricks_cluster" "default_encr_0810_185441_qslvcs71" {
   single_user_name = databricks_user.ganesh_rajagopal.user_name
   runtime_engine   = "STANDARD"
   node_type_id     = "Standard_DS3_v2"
+  is_pinned        = true
   init_scripts {
     dbfs {
       destination = "dbfs:/testencr/set-encryption.sh"
@@ -263,6 +264,7 @@ resource "databricks_cluster" "internode_encr_test_0810_162203_b39npavh" {
   single_user_name = databricks_user.ganesh_rajagopal.user_name
   runtime_engine   = "STANDARD"
   node_type_id     = "Standard_DS3_v2"
+  is_pinned        = true
   init_scripts {
     dbfs {
       destination = "dbfs:/FileStore/encryption/encryption.sh"
@@ -437,52 +439,6 @@ resource "databricks_cluster" "kerb_hdp31_cluster_sn_0901_225646_loaf897" {
   }
   autotermination_minutes = 120
 }
-resource "databricks_cluster" "kerb_hdp31_cluster_sn_13_0724_165600_n70rxf6g" {
-  spark_version = "12.2.x-scala2.12"
-  spark_env_vars = {
-    DATABRICKS_HADOOP_UGI_PROXY_USER_ENABLED = "true"
-  }
-  spark_conf = {
-    "spark.databricks.cluster.profile"                            = "singleNode"
-    "spark.databricks.delta.preview.enabled"                      = "true"
-    "spark.driver.extraJavaOptions"                               = "-Dsun.security.krb5.debug=true -Djava.security.krb5.conf=/dbfs/databricks/ganeshrj/kerb_init_v1/krb5.conf  -Dkeytab.file=/dbfs/databricks/ganeshrj/kerb_init_v1/hdfs_headless.keytab -Djavax.security.auth.useSubjectCredsOnly=false -Djava.security.debug=gssloginconfig,configfile,configparser,logincontext"
-    "spark.executor.extraJavaOptions"                             = "-Dsun.security.krb5.debug=true -Djava.security.krb5.conf=/dbfs/databricks/ganeshrj/kerb_init_v1/krb5.conf  -Dkeytab.file=/dbfs/databricks/ganeshrj/kerb_init_v1/hdfs_headless.keytab -Djavax.security.auth.useSubjectCredsOnly=false -Djava.security.debug=gssloginconfig,configfile,configparser,logincontext"
-    "spark.hadoop.dfs.namenode.kerberos.principal"                = "hdfs-kerbhdp31@GANESHRJ.COM"
-    "spark.hadoop.javax.jdo.option.ConnectionDriverName"          = "org.mariadb.jdbc.Driver"
-    "spark.hadoop.javax.jdo.option.ConnectionPassword"            = "hive"
-    "spark.hadoop.javax.jdo.option.ConnectionURL"                 = "jdbc:mysql://kerbhdp31.ganeshrj.com/hive1"
-    "spark.hadoop.javax.jdo.option.ConnectionUserName"            = "hive"
-    "spark.master"                                                = "local[*, 4]"
-    "spark.sql.hive.metastore.jars"                               = "maven"
-    "spark.sql.hive.metastore.schema.verification"                = "false"
-    "spark.sql.hive.metastore.schema.verification.record.version" = "false"
-    "spark.sql.hive.metastore.version"                            = "3.1.1"
-  }
-  runtime_engine = "STANDARD"
-  node_type_id   = "Standard_DS3_v2"
-  init_scripts {
-    dbfs {
-      destination = "dbfs:/databricks/ganeshrj/kerb_init_v1/kerb-hdfs-init.bash"
-    }
-  }
-  enable_elastic_disk = true
-  data_security_mode  = "NONE"
-  custom_tags = {
-    ResourceClass = "SingleNode"
-  }
-  cluster_name = "kerb_hdp31_cluster_SN (13)"
-  cluster_log_conf {
-    dbfs {
-      destination = "dbfs:/cluster-logs/kerb/"
-    }
-  }
-  azure_attributes {
-    spot_bid_max_price = -1
-    first_on_demand    = 1
-    availability       = "ON_DEMAND_AZURE"
-  }
-  autotermination_minutes = 120
-}
 resource "databricks_cluster" "kerb_hdp31_cluster_std_0902_145639_toil185" {
   spark_version = "6.4.x-esr-scala2.11"
   spark_env_vars = {
@@ -591,31 +547,6 @@ data "databricks_cluster_policy" "personal_compute" {
   policy_family_id = "personal-vm"
   name             = "Personal Compute"
   description      = "Use with small-to-medium data or libraries like pandas and scikit-learn. Spark runs in local mode."
-}
-resource "databricks_cluster" "purview_uc_demo_0717_153837_b5zed416" {
-  spark_version = "12.2.x-scala2.12"
-  spark_env_vars = {
-    PYSPARK_PYTHON = "/databricks/python3/bin/python3"
-  }
-  spark_conf = {
-    "spark.databricks.delta.preview.enabled" = "true"
-  }
-  single_user_name    = databricks_user.nikhil_gupta.user_name
-  runtime_engine      = "STANDARD"
-  node_type_id        = "Standard_DS3_v2"
-  enable_elastic_disk = true
-  data_security_mode  = "SINGLE_USER"
-  cluster_name        = "Purview-UC-Demo"
-  azure_attributes {
-    spot_bid_max_price = -1
-    first_on_demand    = 1
-    availability       = "ON_DEMAND_AZURE"
-  }
-  autotermination_minutes = 120
-  autoscale {
-    min_workers = 2
-    max_workers = 8
-  }
 }
 resource "databricks_library" "r02a382b89b3" {
   pypi {
@@ -726,11 +657,11 @@ resource "databricks_library" "r774eb2412d6" {
   cluster_id = databricks_cluster.hbase_demo_0510_153436_liven246.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r87fd1bbd35a" {
@@ -818,7 +749,7 @@ resource "databricks_cluster" "single_node_compute_cluster_0721_151230_9u1n2glm"
     "spark.databricks.delta.preview.enabled" = "true"
     "spark.master"                           = "local[*, 4]"
   }
-  single_user_name    = databricks_user.roger_ding.user_name
+  single_user_name    = databricks_user.ganesh_rajagopal.user_name
   runtime_engine      = "STANDARD"
   policy_id           = data.databricks_cluster_policy.personal_compute.id
   node_type_id        = "Standard_DS3_v2"
@@ -833,7 +764,6 @@ resource "databricks_cluster" "single_node_compute_cluster_0721_151230_9u1n2glm"
     first_on_demand    = 1
     availability       = "ON_DEMAND_AZURE"
   }
-  autotermination_minutes = 10
 }
 resource "databricks_cluster" "test_blob_mount_0421_191122_hubby225" {
   spark_version = "8.1.x-scala2.12"
