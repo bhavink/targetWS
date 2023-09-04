@@ -657,11 +657,11 @@ resource "databricks_library" "r774eb2412d6" {
   cluster_id = databricks_cluster.hbase_demo_0510_153436_liven246.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r81800dbbb9c" {
-  jar        = "dbfs:/FileStore/jars/efa8cef3_854c_4b04_9a8b_2a07d2fb0612-spark_examples_2_12_3_1_2-f2c79.jar"
+  jar        = "dbfs:/FileStore/jars/62658beb_77b3_4853_a3d5_d61e66702638-spark_examples_2_12_3_1_2-f2c79.jar"
   cluster_id = databricks_cluster.a_simple_cluster_0208_192534_motif544.id
 }
 resource "databricks_library" "r87fd1bbd35a" {
